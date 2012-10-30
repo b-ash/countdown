@@ -63,7 +63,7 @@ class IndexView extends View
     isMobileUser: ->
         agents = ['iphone', 'android', 'ipod', 'blackberry', 'opera mini', 'iemobile']
         ua = navigator.userAgent.toLowerCase()
-        return (agent for agent in agents when agent.indexOf(ua) > -1).length isnt 0
+        return (agent for agent in agents when ua.indexOf(agent) > -1).length isnt 0
 
 
 module.exports = IndexView

@@ -303,7 +303,7 @@ window.require.define({"views/index": function(exports, require, module) {
         _results = [];
         for (_i = 0, _len = agents.length; _i < _len; _i++) {
           agent = agents[_i];
-          if (agent.indexOf(ua) > -1) {
+          if (ua.indexOf(agent) > -1) {
             _results.push(agent);
           }
         }
