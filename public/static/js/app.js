@@ -269,38 +269,15 @@ window.require.define({"views/index": function(exports, require, module) {
     };
 
     IndexView.prototype.formatTimeout = function(timeout) {
-      var time, times;
-      times = [];
-      time = this.formatTime('month', timeout.months);
-      if (time != null) {
-        times.push(time);
-      }
-      time = this.formatTime('day', timeout.days);
-      if (time != null) {
-        times.push(time);
-      }
-      time = this.formatTime('hour', timeout.hours);
-      if (time != null) {
-        times.push(time);
-      }
-      time = this.formatTime('minute', timeout.minutes);
-      if (time != null) {
-        times.push(time);
-      }
-      time = this.formatTime('second', timeout.seconds);
-      if (time != null) {
-        times.push(time);
-      }
+      var times;
+      times = [this.formatTime('month', timeout.months), this.formatTime('day', timeout.days), this.formatTime('hour', timeout.hours), this.formatTime('minute', timeout.minutes), this.formatTime('second', timeout.seconds)];
       return times.join(', ');
     };
 
     IndexView.prototype.formatTime = function(frame, val) {
       var time;
-      if (val === 0) {
-        return null;
-      }
       time = "" + val + " " + frame;
-      if (val > 1) {
+      if (val > 1 || val === 0) {
         time += 's';
       }
       return time;
