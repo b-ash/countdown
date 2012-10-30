@@ -10767,6 +10767,15 @@ body {
 #countdown-wrap #countdown #time {
   font-size: 40px;
 }
+#countdown-wrap.mobile {
+  margin-top: 0;
+}
+#countdown-wrap.mobile #countdown > span {
+  font-size: 15px;
+}
+#countdown-wrap.mobile #countdown #time {
+  font-size: 30px;
+}
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
    ========================================================================== */

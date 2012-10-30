@@ -216,11 +216,11 @@ window.require.define({"views/index": function(exports, require, module) {
     __extends(IndexView, _super);
 
     function IndexView() {
-      this.formatTime = __bind(this.formatTime, this);
-
       this.formatTimeout = __bind(this.formatTimeout, this);
 
       this.getTimeout = __bind(this.getTimeout, this);
+
+      this.afterRender = __bind(this.afterRender, this);
 
       this.getRenderData = __bind(this.getRenderData, this);
 
@@ -239,12 +239,23 @@ window.require.define({"views/index": function(exports, require, module) {
     };
 
     IndexView.prototype.getRenderData = function() {
-      var timeout;
+      var isMobile, time, timeout;
       timeout = this.getTimeout();
-      timeout = this.formatTimeout(timeout);
+      this.model = timeout;
+      time = this.formatTimeout(timeout);
+      isMobile = this.isMobileUser();
       return {
-        time: timeout
+        time: time,
+        isMobile: isMobile
       };
+    };
+
+    IndexView.prototype.afterRender = function() {
+      if (this.model.seconds === 0) {
+        return $('#time').css('color', '#FFF').animate({
+          color: '#F00'
+        }, 'slow');
+      }
     };
 
     IndexView.prototype.getTimeout = function() {
@@ -283,6 +294,23 @@ window.require.define({"views/index": function(exports, require, module) {
       return time;
     };
 
+    IndexView.prototype.isMobileUser = function() {
+      var agent, agents, ua;
+      agents = ['iphone', 'android', 'ipod', 'blackberry', 'opera mini', 'iemobile'];
+      ua = navigator.userAgent.toLowerCase();
+      return ((function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = agents.length; _i < _len; _i++) {
+          agent = agents[_i];
+          if (agent.indexOf(ua) > -1) {
+            _results.push(agent);
+          }
+        }
+        return _results;
+      })()).length !== 0;
+    };
+
     return IndexView;
 
   })(View);
@@ -294,10 +322,24 @@ window.require.define({"views/index": function(exports, require, module) {
 window.require.define({"views/templates/index": function(exports, require, module) {
   module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
     helpers = helpers || Handlebars.helpers;
-    var buffer = "", stack1, foundHelper, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+    var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
 
+  function program1(depth0,data) {
+    
+    
+    return "mobile";}
 
-    buffer += "<div id=\"countdown-wrap\">\n    <div id=\"countdown\">\n        <span>Time until freedom:</span>\n        <h1 id=\"time\">";
+    buffer += "<div id=\"countdown-wrap\" class=\"";
+    foundHelper = helpers.isMobile;
+    stack1 = foundHelper || depth0.isMobile;
+    stack2 = helpers['if'];
+    tmp1 = self.program(1, program1, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.noop;
+    stack1 = stack2.call(depth0, stack1, tmp1);
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    buffer += "\">\n    <div id=\"countdown\">\n        <span>Time until freedom:</span>\n        <h1 id=\"time\">";
     foundHelper = helpers.time;
     stack1 = foundHelper || depth0.time;
     if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }

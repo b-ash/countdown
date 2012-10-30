@@ -10,8 +10,16 @@ class IndexView extends View
 
     getRenderData: =>
         timeout = @getTimeout()
-        timeout = @formatTimeout timeout
-        {time: timeout}
+        @model = timeout
+
+        time = @formatTimeout timeout
+        isMobile = @isMobileUser()
+
+        {time, isMobile}
+
+    afterRender: =>
+        if @model.seconds is 0
+            $('#time').css('color', '#FFF').animate({color: '#F00'}, 'slow')
 
     getTimeout: =>
         now = moment().unix()
@@ -45,12 +53,17 @@ class IndexView extends View
 
         return times.join(', ')
 
-    formatTime: (frame, val) =>
+    formatTime: (frame, val) ->
         time = "#{val} #{frame}"
         if val > 1 or val is 0
             time += 's'
 
         return time
+
+    isMobileUser: ->
+        agents = ['iphone', 'android', 'ipod', 'blackberry', 'opera mini', 'iemobile']
+        ua = navigator.userAgent.toLowerCase()
+        return (agent for agent in agents when agent.indexOf(ua) > -1).length isnt 0
 
 
 module.exports = IndexView
